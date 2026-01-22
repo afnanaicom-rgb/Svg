@@ -2,232 +2,285 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>الرئيسية - Afnan AI</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <style>
-        * { font-family: 'Noto Sans Arabic', sans-serif; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { background: #f3f4f6; color: #1f2937; transition: background 0.3s, color 0.3s; }
-        body.dark { background: #111827; color: #f3f4f6; }
-        .glass { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.5); }
-        .dark .glass { background: rgba(31, 41, 55, 0.7); border: 1px solid rgba(55, 65, 81, 0.5); }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .loader { border: 3px solid rgba(0,0,0,0.1); border-left-color: #3b82f6; border-radius: 50%; width: 24px; height: 24px; animation: spin 1s linear infinite; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الصفحة الرئيسية</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body class="pb-24 select-none">
+<body>
 
-    <header class="fixed top-0 w-full h-16 glass z-50 flex items-center justify-between px-6 shadow-sm">
-        <h1 class="text-xl font-black">Afnan AI</h1>
-        <div class="flex gap-3">
-            <button onclick="toggleDarkMode()" class="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition">
-                <i data-lucide="moon" class="w-5 h-5"></i>
-            </button>
-            <button onclick="logout()" class="p-2 rounded-full bg-red-50 text-red-500 hover:bg-red-100 transition">
-                <i data-lucide="log-out" class="w-5 h-5"></i>
-            </button>
-        </div>
-    </header>
+    <div class="menu-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </div>
 
-    <main class="pt-20 px-4 max-w-lg mx-auto space-y-6">
-        
-        <div id="profileCard" class="glass rounded-[32px] p-6 text-center relative overflow-hidden">
-            <div id="loadingProfile" class="absolute inset-0 flex items-center justify-center bg-white/80 z-10"><div class="loader"></div></div>
-            
-            <div class="relative w-24 h-24 mx-auto mb-4">
-                <img id="userAvatar" src="" class="w-full h-full rounded-full object-cover border-4 border-white shadow-lg">
-                <img id="activeFrameImg" src="" class="absolute -top-[15%] -left-[15%] w-[130%] h-[130%] pointer-events-none hidden">
+    <div id="sidebar" class="sidebar">
+        <a href="javascript:void(0)" onclick="toggleSidebar()" style="position: absolute; left: 20px; top: 20px; font-size: 24px; text-decoration: none; color: #333;">&times;</a>
+
+        <div class="profile-section">
+            <div class="avatar-container">
+                <img id="sidebar-avatar" src="default-avatar.png" class="user-avatar">
+                <img id="sidebar-frame" src="" class="user-frame" style="display: none;">
             </div>
+            <h3 id="sidebar-name" style="margin: 5px 0;">جاري التحميل...</h3>
+            <span id="sidebar-id" style="color: #777; font-size: 14px; background: #eee; padding: 2px 8px; border-radius: 4px;">ID: --</span>
             
-            <h2 id="userName" class="text-2xl font-black mb-1">...</h2>
-            <div class="inline-block bg-black/5 dark:bg-white/10 px-3 py-1 rounded-full text-xs font-mono mb-4" id="userCustomId">...</div>
-            
-            <div class="grid grid-cols-2 gap-3">
-                <div class="bg-yellow-50 dark:bg-yellow-900/20 p-3 rounded-2xl">
-                    <p class="text-[10px] text-yellow-600 font-bold uppercase">الرصيد</p>
-                    <p id="userBalance" class="text-xl font-black text-yellow-700">0</p>
+            <div style="margin-top: 5px; font-weight: bold; color: #e91e63;">المستوى: <span id="sidebar-level">1</span></div>
+
+            <div id="equipped-badges" class="badges-container">
                 </div>
-                <div class="bg-purple-50 dark:bg-purple-900/20 p-3 rounded-2xl">
-                    <p class="text-[10px] text-purple-600 font-bold uppercase">المستوى</p>
-                    <p id="userLevel" class="text-xl font-black text-purple-700">1</p>
-                </div>
-            </div>
         </div>
 
-        <div>
-            <h3 class="font-bold text-lg mb-4 flex items-center justify-between">
-                أصدقائي
-                <span id="friendsCount" class="text-xs bg-gray-200 px-2 py-1 rounded-lg">0</span>
-            </h3>
-            <div id="friendsContainer" class="space-y-3 pb-10">
-                <div class="text-center text-gray-400 py-6 text-sm">جاري تحميل الأصدقاء...</div>
-            </div>
+        <div class="stats-cards">
+            <div class="stat-card">
+                <div class="stat-title">الثروة</div>
+                <div class="stat-value" style="color: #FFD700;">Wait...</div> </div>
+            <div class="stat-card">
+                <div class="stat-title">السحر</div>
+                <div class="stat-value" style="color: #ff69b4;">Wait...</div> </div>
         </div>
-    </main>
 
-    <nav class="fixed bottom-0 w-full bg-white/90 dark:bg-gray-900/90 backdrop-blur-lg border-t border-gray-100 dark:border-gray-800 pb-safe">
-        <div class="flex justify-around p-4">
-            <button class="nav-btn text-blue-500"><i data-lucide="home"></i></button>
-            <button class="nav-btn text-gray-400"><i data-lucide="wallet"></i></button>
-            <button class="nav-btn text-gray-400"><i data-lucide="shopping-bag"></i></button>
-            <button class="nav-btn text-gray-400"><i data-lucide="user"></i></button>
+        <button class="nav-btn" onclick="showSection('home-sec')"><i class="fas fa-home"></i> الرئيسية</button>
+        <button class="nav-btn" onclick="showSection('wallet-sec')"><i class="fas fa-wallet"></i> المحفظة</button>
+        <button class="nav-btn" onclick="showSection('store-sec')"><i class="fas fa-store"></i> المتجر</button>
+        <button class="nav-btn" onclick="showSection('my-bag-sec')"><i class="fas fa-briefcase"></i> حقيبتي</button>
+        <button class="nav-btn" onclick="showSection('my-badges-sec')"><i class="fas fa-medal"></i> شاراتي</button>
+        <button class="nav-btn" onclick="logout()"><i class="fas fa-sign-out-alt" style="color:red;"></i> تسجيل خروج</button>
+    </div>
+
+    <div id="main-content">
+        <div id="wallet-sec" style="display:none;">
+            <h2>💰 المحفظة</h2>
+            <div class="stat-card">كوينز: <span id="wallet-coins">0</span></div>
+            <div class="stat-card">ماسات: <span id="wallet-diamonds">0</span></div>
         </div>
-    </nav>
+
+        <div id="store-sec" style="display:none;">
+            <h2>🏪 المتجر</h2>
+            <div class="grid-container" id="store-items"></div>
+        </div>
+
+        <div id="my-bag-sec" style="display:none;">
+            <h2>🎒 حقيبتي (الإطارات والدخلات)</h2>
+            <div class="grid-container" id="bag-items"></div>
+        </div>
+
+        <div id="my-badges-sec" style="display:none;">
+            <h2>🏅 شاراتي</h2>
+            <div class="grid-container" id="my-badges-list"></div>
+        </div>
+
+        <div id="home-sec">
+            <h1>أهلاً بك في التطبيق</h1>
+        </div>
+    </div>
 
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, runTransaction, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { auth, db } from './firebase-config.js';
+        import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { doc, onSnapshot, updateDoc, arrayUnion, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyBnmqWRY6lV54meFvO89QeXwtd28w81FcY",
-            authDomain: "rtx3090-28439.firebaseapp.com",
-            projectId: "rtx3090-28439",
-            storageBucket: "rtx3090-28439.firebasestorage.app",
-            messagingSenderId: "178612030690",
-            appId: "1:178612030690:web:883189ced2ed3a78e3e2bb"
+        // عناصر واجهة المستخدم
+        const els = {
+            avatar: document.getElementById('sidebar-avatar'),
+            frame: document.getElementById('sidebar-frame'),
+            name: document.getElementById('sidebar-name'),
+            id: document.getElementById('sidebar-id'),
+            level: document.getElementById('sidebar-level'),
+            badgesDiv: document.getElementById('equipped-badges'),
+            coins: document.getElementById('wallet-coins'),
+            diamonds: document.getElementById('wallet-diamonds')
         };
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
+        let currentUser = null;
 
-        let currentUserData = null;
+        // بيانات المتجر (يمكن وضعها في Firestore في كوليكشن products)
+        // items types: 'frame', 'badge', 'entrance'
+        const storeItems = [
+            { id: 'f1', name: 'إطار ذهبي', price: 100, type: 'frame', img: 'frame_gold.png' },
+            { id: 'f2', name: 'إطار نيون', price: 200, type: 'frame', img: 'frame_neon.png' },
+            { id: 'b1', name: 'شارة النسر', price: 50, type: 'badge', img: 'badge_eagle.png' },
+            { id: 'b2', name: 'شارة الحب', price: 50, type: 'badge', img: 'badge_love.png' },
+            // أضف المزيد هنا
+        ];
 
-        // 1. المصادقة الآمنة
         onAuthStateChanged(auth, async (user) => {
-            if (!user) {
-                window.location.href = "index.html";
-                return;
-            }
-            await initializeUserSafely(user);
-        });
+            if (user) {
+                currentUser = user;
+                const userRef = doc(db, "users", user.uid);
 
-        // 2. دالة الإنشاء الآمنة (Transaction) - القلب النابض للحماية
-        async function initializeUserSafely(user) {
-            const userRef = doc(db, "users", user.uid);
-
-            try {
-                await runTransaction(db, async (transaction) => {
-                    const sfDoc = await transaction.get(userRef);
-                    if (!sfDoc.exists()) {
-                        // المستخدم غير موجود -> أنشئ بيانات جديدة
-                        const newId = 'ID-' + Math.floor(100000 + Math.random() * 900000);
-                        transaction.set(userRef, {
-                            uid: user.uid,
-                            displayName: user.displayName || 'User',
-                            email: user.email,
-                            photoURL: user.photoURL || 'https://via.placeholder.com/150',
-                            customId: newId,
-                            balance: 1000, // رصيد ترحيبي
-                            magicLevel: 1,
-                            wealthLevel: 1,
-                            magicXP: 0,
-                            wealthXP: 0,
-                            purchasedFrames: [],
-                            activeFrame: null,
-                            activeBadges: [],
-                            friends: [],
-                            friendRequests: [],
-                            createdAt: serverTimestamp(),
-                            lastLogin: serverTimestamp()
-                        });
-                    } else {
-                        // المستخدم موجود -> فقط حدث وقت الدخول (لا تمس البيانات الأخرى)
-                        transaction.update(userRef, {
-                            lastLogin: serverTimestamp()
-                        });
+                // مزامنة البيانات (Realtime)
+                onSnapshot(userRef, (docSnap) => {
+                    if (docSnap.exists()) {
+                        const data = docSnap.data();
+                        updateSidebar(data, user);
+                        updateWallet(data);
+                        renderBag(data.inventory || []);
+                        renderMyBadges(data.inventory || []);
                     }
                 });
+                
+                renderStore(); // عرض المتجر
+            } else {
+                window.location.href = "index.html";
+            }
+        });
 
-                // بعد التأكد من الوجود، استمع للتغييرات
-                listenToUserData(user.uid);
+        // تحديث الشريط الجانبي
+        function updateSidebar(data, user) {
+            els.name.textContent = data.displayName || user.displayName;
+            els.id.textContent = "ID: " + (data.customID || user.uid.slice(0,6));
+            els.avatar.src = data.photoURL || user.photoURL || 'default.png';
+            els.level.textContent = data.level || 1;
 
-            } catch (e) {
-                console.error("Transaction failed: ", e);
-                alert("حدث خطأ في الاتصال بقاعدة البيانات");
+            // تحديث الإطار
+            if (data.equipped && data.equipped.frame) {
+                els.frame.src = data.equipped.frame;
+                els.frame.style.display = 'block';
+            } else {
+                els.frame.style.display = 'none';
+            }
+
+            // تحديث الشارات تحت المستوى
+            els.badgesDiv.innerHTML = '';
+            if (data.equipped && data.equipped.badges) {
+                data.equipped.badges.forEach(badgeUrl => {
+                    const img = document.createElement('img');
+                    img.src = badgeUrl;
+                    img.className = 'badge-icon';
+                    els.badgesDiv.appendChild(img);
+                });
             }
         }
 
-        // 3. الاستماع للبيانات وعرضها
-        function listenToUserData(uid) {
-            onSnapshot(doc(db, "users", uid), (doc) => {
-                if (doc.exists()) {
-                    currentUserData = doc.data();
-                    updateUI(currentUserData);
-                    loadFriendsList(currentUserData.friends);
-                }
+        function updateWallet(data) {
+            if (data.wallet) {
+                els.coins.textContent = data.wallet.coins || 0;
+                els.diamonds.textContent = data.wallet.diamonds || 0;
+            }
+        }
+
+        // عرض المتجر
+        function renderStore() {
+            const container = document.getElementById('store-items');
+            container.innerHTML = '';
+            storeItems.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'item-card';
+                div.innerHTML = `
+                    <img src="${item.img}">
+                    <h4>${item.name}</h4>
+                    <p>💰 ${item.price}</p>
+                    <button class="buy-btn" onclick="buyItem('${item.id}')">شراء</button>
+                `;
+                container.appendChild(div);
             });
         }
 
-        function updateUI(data) {
-            document.getElementById('loadingProfile').classList.add('hidden');
-            document.getElementById('userName').innerText = data.displayName;
-            document.getElementById('userCustomId').innerText = data.customId;
-            document.getElementById('userAvatar').src = data.photoURL;
-            document.getElementById('userBalance').innerText = data.balance;
-            document.getElementById('userLevel').innerText = data.magicLevel;
-            
-            // Frame Logic
-            const frameImg = document.getElementById('activeFrameImg');
-            if(data.activeFrame) {
-                // يفترض هنا أنك تجلب صورة الإطار من مجموعة frames (اختصاراً سأخفيها لو لا يوجد رابط)
-                frameImg.classList.remove('hidden'); 
+        // عملية الشراء
+        window.buyItem = async (itemId) => {
+            const item = storeItems.find(i => i.id === itemId);
+            const userRef = doc(db, "users", currentUser.uid);
+            const snap = await getDoc(userRef);
+            const data = snap.data();
+            const currentCoins = data.wallet?.coins || 0;
+
+            if (currentCoins >= item.price) {
+                // خصم المبلغ وإضافة العنصر
+                await updateDoc(userRef, {
+                    "wallet.coins": currentCoins - item.price,
+                    "inventory": arrayUnion(item.id)
+                });
+                alert("تم الشراء بنجاح!");
             } else {
-                frameImg.classList.add('hidden');
+                alert("لا يوجد رصيد كافي!");
             }
+        };
+
+        // عرض الحقيبة (إطارات ودخلات فقط)
+        function renderBag(inventoryIds) {
+            const container = document.getElementById('bag-items');
+            container.innerHTML = '';
+            
+            // فلتر العناصر المملوكة والتي ليست شارات
+            const myItems = storeItems.filter(item => inventoryIds.includes(item.id) && item.type !== 'badge');
+
+            myItems.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'item-card';
+                div.innerHTML = `
+                    <img src="${item.img}">
+                    <h4>${item.name}</h4>
+                    <button class="equip-btn" onclick="equipItem('${item.type}', '${item.img}')">تفعيل</button>
+                `;
+                container.appendChild(div);
+            });
         }
 
-        // 4. تحميل قائمة الأصدقاء (للذهاب للشات)
-        async function loadFriendsList(friendsIds) {
-            const container = document.getElementById('friendsContainer');
-            document.getElementById('friendsCount').innerText = friendsIds ? friendsIds.length : 0;
+        // عرض شاراتي (قسم منفصل للشارات فقط)
+        function renderMyBadges(inventoryIds) {
+            const container = document.getElementById('my-badges-list');
             container.innerHTML = '';
 
-            if (!friendsIds || friendsIds.length === 0) {
-                container.innerHTML = '<div class="text-center text-gray-400 text-sm py-4">ليس لديك أصدقاء بعد</div>';
-                return;
-            }
+            const myBadges = storeItems.filter(item => inventoryIds.includes(item.id) && item.type === 'badge');
 
-            // في التطبيق الحقيقي يفضل جلبهم دفعة واحدة، هنا سنجلبهم واحداً تلو الآخر للتبسيط
-            for (const friendUid of friendsIds) {
-                const fDoc = await getDoc(doc(db, "users", friendUid));
-                if (fDoc.exists()) {
-                    const fData = fDoc.data();
-                    const el = document.createElement('div');
-                    el.className = "glass p-4 rounded-2xl flex items-center justify-between hover:bg-white cursor-pointer transition";
-                    el.innerHTML = `
-                        <div class="flex items-center gap-3">
-                            <div class="relative">
-                                <img src="${fData.photoURL}" class="w-12 h-12 rounded-full object-cover">
-                                <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-sm">${fData.displayName}</h4>
-                                <p class="text-xs text-gray-500">Lv. ${fData.magicLevel}</p>
-                            </div>
-                        </div>
-                        <div class="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-500">
-                            <i data-lucide="message-circle" class="w-4 h-4"></i>
-                        </div>
-                    `;
-                    // عند الضغط، اذهب لصفحة الشات مع تمرير المعرف في الرابط
-                    el.onclick = () => {
-                        window.location.href = `chat.html?uid=${fData.uid}`;
-                    };
-                    container.appendChild(el);
-                }
-            }
-            lucide.createIcons();
+            myBadges.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'item-card';
+                div.innerHTML = `
+                    <img src="${item.img}">
+                    <h4>${item.name}</h4>
+                    <button class="equip-btn" onclick="equipBadge('${item.img}')">تفعيل/إلغاء</button>
+                `;
+                container.appendChild(div);
+            });
         }
 
-        // أدوات مساعدة
-        window.logout = () => signOut(auth).then(() => window.location.href = "index.html");
-        window.toggleDarkMode = () => document.body.classList.toggle('dark');
-        lucide.createIcons();
+        // تفعيل الإطار أو الدخلة
+        window.equipItem = async (type, imgUrl) => {
+            const userRef = doc(db, "users", currentUser.uid);
+            if (type === 'frame') {
+                await updateDoc(userRef, { "equipped.frame": imgUrl });
+            } else if (type === 'entrance') {
+                await updateDoc(userRef, { "equipped.entrance": imgUrl });
+            }
+            alert("تم التفعيل!");
+        };
+
+        // تفعيل الشارة (تضاف للمصفوفة)
+        window.equipBadge = async (imgUrl) => {
+            const userRef = doc(db, "users", currentUser.uid);
+            const snap = await getDoc(userRef);
+            let currentBadges = snap.data().equipped?.badges || [];
+
+            if (currentBadges.includes(imgUrl)) {
+                // إزالة الشارة إذا كانت موجودة
+                currentBadges = currentBadges.filter(b => b !== imgUrl);
+            } else {
+                // إضافة الشارة (بحد أقصى مثلاً 10)
+                currentBadges.push(imgUrl);
+            }
+
+            await updateDoc(userRef, { "equipped.badges": currentBadges });
+        };
+
+        // وظائف الواجهة
+        window.toggleSidebar = () => {
+            document.getElementById("sidebar").classList.toggle("active");
+        };
+
+        window.showSection = (secId) => {
+            // إخفاء الكل
+            ['home-sec', 'wallet-sec', 'store-sec', 'my-bag-sec', 'my-badges-sec'].forEach(id => {
+                document.getElementById(id).style.display = 'none';
+            });
+            // إظهار المطلوب
+            document.getElementById(secId).style.display = 'block';
+            toggleSidebar(); // إغلاق القائمة بعد الاختيار
+        };
+
+        window.logout = () => {
+            signOut(auth);
+        };
     </script>
 </body>
 </html>
